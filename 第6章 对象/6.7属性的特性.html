@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+</head>
+
+<body>
+    <script type="text/javascript">
+    var random = {
+        get octet() {
+            return Math.floor(Math.random() * 256);
+        }
+    };
+
+    //获取属性
+    // console.info(Object.getOwnPropertyDescriptor({
+    //     x: 1
+    // }, "x"));
+    // console.info(Object.getOwnPropertyDescriptor(random, "octet"));
+    // console.info(Object.getOwnPropertyDescriptor({}, "x"));
+    // console.info(Object.getOwnPropertyDescriptor({}, "toString"));
+
+    //设置属性
+    var o = {};
+    Object.defineProperty(o, "x", {
+        value: 1,
+        writable: true,
+        enumerable: false,
+        configurable: true
+    });
+    console.info(o.x);
+    console.info(Object.keys(o));
+    console.info("x" in o);
+    console.info(o.hasOwnProperty("x"));
+    console.info(o.propertyIsEnumerable("x"));
+    Object.defineProperty(o, "x", {
+        writable: false
+    });
+    o.x = 2;
+    console.info(o.x);
+    Object.defineProperty(o, "x", {
+        value: 2
+    });
+    console.info(o.x);
+    Object.defineProperty(o, "x", {
+        get: function() {
+            return 0;
+        }
+    });
+    console.info(o.x);
+    //定义多个属性
+    var p = Object.defineProperties({}, {
+        x: {
+            value: 1,
+            writable: true,
+            enumerable: true,
+            configurable: true
+        },
+        y: {
+            get: function() {
+                return this.value;
+            },
+            set: function(newValue) {
+                this.value = newValue;
+            },
+            enumerable: true,
+            configurable: true
+        },
+        r: {
+            get: function() {
+                return Math.sqrt(this.x * this.x + this.y * this.y);
+            },
+            enumerable: true,
+            configurable: true
+        }
+    });
+    console.info(Object.getOwnPropertyDescriptor(p, "x"));
+    console.info(Object.getOwnPropertyDescriptor(p, "y"));
+    Object.defineProperty(p, "x", {
+        configurable: false
+    });
+    // Object.defineProperty(p, "x", {
+    // 	enumerable: false
+    // });
+    Object.defineProperty(p, "x", {
+        writable: false
+    });
+    // Object.defineProperty(p, "x", {
+    // 	writable: true
+    // });
+    //p.x = 2;
+    console.info(p.x);
+    console.info(p.y);
+
+    //例6-3：复制属性的特性
+    /*给Object.property添加一个不可枚举的extend()方法
+    这个方法集成自调用它的对象，将作为参数传入的对象的属性一一复制
+    除了值之外，也复制属性的所有特性，除非在目标对象中存在同名的属性
+    参数对象的所有自由对象（包括不可枚举的属性）也会一一复制*/
+    Object.defineProperty(Object.prototype, "extend", {
+        writable: true,
+        enumerable: false,
+        configurable: true,
+        value: function(o) {
+            //得到所有的属性，包括不可枚举属性
+            var names = Object.getOwnPropertyNames(o);
+            for (var i = 0; i < names.length; i++) {
+                if (names[i] in this) continue;
+                var desc = Object.getOwnPropertyDescriptor(o, names[i]);
+                Object.defineProperty(this, names[i], desc);
+            }
+        }
+    });
+    var p1 = {
+    	name : "张三",
+    };
+    p1.extend(p);
+    console.info(p1);
+    </script>
+    <img src="../images/6.7.png">
+</body>
+
+</html>
