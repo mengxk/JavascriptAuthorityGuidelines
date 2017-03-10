@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+<script type="text/javascript">
+    console.info("原型属性----------");
+    var p = {x: 1};
+    var o = Object.create(p);
+    console.info(p.isPrototypeOf(o));
+    console.info(Object.prototype.isPrototypeOf(o));
+
+    console.info("类属性----------");
+    function classOf(o) {
+        if (o === null)  return "Null";
+        if (o === undefined) return "Undefined";
+        return Object.prototype.toString.call(o).slice(8, -1);
+    }
+    console.info(classOf(null));
+    console.info(classOf(1));
+    console.info(classOf(""));
+    console.info(classOf(false));
+    console.info(classOf({}));
+    console.info(classOf([]));
+    console.info(classOf(/./));
+    console.info(classOf(new Date()));
+    console.info(classOf(window));
+    var f = function () {
+    };
+    console.info(classOf(f));
+
+    console.info("可扩展性----------");
+    //创建一个封闭对象，包括一个冻结的原型和一个不可枚举的属性
+    var o = Object.seal(Object.create(Object.freeze({x: 1}), {y: {value: 2, writable: true}}));
+</script>
+</body>
+</html>
