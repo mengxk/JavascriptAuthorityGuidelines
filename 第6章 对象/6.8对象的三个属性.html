@@ -33,6 +33,7 @@
     console.info("可扩展性----------");
     //创建一个封闭对象，包括一个冻结的原型和一个不可枚举的属性
     var o = Object.seal(Object.create(Object.freeze({x: 1}), {y: {value: 2, writable: true}}));
+    console.info(o);
 </script>
 </body>
 </html>
