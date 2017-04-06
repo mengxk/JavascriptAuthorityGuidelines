@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    var o = {x: 1, y: {
+        z: [false, null, ""]
+    }};
+    var s = JSON.stringify(o);
+    console.info(o);
+    console.info(s);
+    console.info(JSON.parse(s));
+</script>
+</body>
+</html>
