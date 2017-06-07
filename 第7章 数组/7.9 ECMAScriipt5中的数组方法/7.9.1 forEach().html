@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    var data = [1, 2, 3, 4, 5];
+    var sum = 0;
+    data.forEach(function(value){
+       sum += value;
+    });
+    console.info(sum);
+    data.forEach(function(v, i, a){
+        a[i] = v + 1;
+    });
+    console.info(data);
+    function foreach(a, f, t){
+        try{
+            a.forEach(f, t);
+        }catch (e){
+            if(e === foreach.break) return;
+            else throw e;
+        }
+    }
+    foreach.break = new Error("StopInteration");
+    foreach(data, function(e){ console.info(e);}, "20");
+</script>
+</body>
+</html>
